@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import idv.natsucamellia.yuumi.ui.screens.HomeScreen
+import idv.natsucamellia.yuumi.ui.screens.ProfileScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,8 +57,14 @@ fun YuumiApp(
             composable(route = YuumiScreen.Home.name) {
                 HomeScreen(
                     summonerUiState = viewModel.summonerUiState,
-                    onSearch = { summonerName -> viewModel.searchBySummonerName(summonerName) }
+                    onSearch = {
+                        summonerName -> viewModel.searchBySummonerName(summonerName)
+                        navController.navigate(YuumiScreen.Profile.name)
+                    }
                 )
+            }
+            composable(route = YuumiScreen.Profile.name) {
+                ProfileScreen()
             }
         }
     }
@@ -96,5 +103,5 @@ fun YuumiTopAppBar(
 
 enum class YuumiScreen(val title: String) {
     Home(title = "Yuumi"),
-    Search(title = "Search")
+    Profile(title = "Profile")
 }
