@@ -21,8 +21,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import idv.natsucamellia.yuumi.data.SummonerUiState
 import idv.natsucamellia.yuumi.network.SummonerDto
+import idv.natsucamellia.yuumi.ui.SummonerUiState
 
 @Composable
 fun HomeScreen(
@@ -46,7 +46,9 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         )
-        SummonerInfo(summonerUiState.summonerDto)
+        if (summonerUiState is SummonerUiState.Success) {
+            SummonerInfo(summonerUiState.summonerDto)
+        }
     }
 }
 
