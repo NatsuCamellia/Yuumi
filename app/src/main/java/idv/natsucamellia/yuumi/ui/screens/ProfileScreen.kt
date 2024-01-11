@@ -5,22 +5,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -31,22 +32,68 @@ import idv.natsucamellia.yuumi.R
 fun ProfileScreen(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.verticalScroll(rememberScrollState())
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
     ) {
-        InfoPanel(
-            modifier = Modifier.fillMaxWidth()
-        )
-        RankPanel(
-
-        )
-        MasteryPanel(
-            modifier = Modifier.fillMaxWidth()
-        )
-        MatchPanel(
-            modifier = Modifier.fillMaxWidth()
-        )
+        item {
+            InfoPanel(
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            MasteryPanel(
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
+        item{
+            MatchItem(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            )
+        }
     }
 }
 
@@ -139,18 +186,6 @@ fun MasteryItem(
     }
 }
 
-
-@Composable
-fun MatchPanel(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-    ) {
-        MatchItem()
-    }
-}
-
 @Composable
 fun MatchItem(
     modifier: Modifier = Modifier
@@ -163,62 +198,137 @@ fun MatchItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .background(Color.Red)
-                .padding(4.dp)
                 .fillMaxHeight()
+                .padding(8.dp)
         ) {
             Text("W")
-            Text(
-                text = "19:53",
-                style = MaterialTheme.typography.bodySmall
-            )
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.padding(8.dp)
         ) {
-            Column {
-                Row {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                // Champion, spells, KDA
+                Row (
+                    modifier = Modifier.height(54.dp)
+                ) {
                     SquareAssets(
                         url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/Aatrox.png",
                         contentDescription = "Champion icon",
-                        height = 50.dp
+                        height = 54.dp
                     )
-                }
-                // Builds
-                LazyRow {
-                    item {
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+                        // Summoner spells
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            SquareAssets(
+                                url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerHeal.png",
+                                contentDescription = "Summoner spell 1",
+                                height = 25.dp
+                            )
+                            SquareAssets(
+                                url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerFlash.png",
+                                contentDescription = "Summoner spell 2",
+                                height = 25.dp
+                            )
+                        }
+                        // Runes
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            SquareAssets(
+                                url = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
+                                contentDescription = "Summoner spell 1",
+                                height = 25.dp
+                            )
+                            SquareAssets(
+                                url = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png",
+                                contentDescription = "Summoner spell 2",
+                                height = 25.dp
+                            )
+                        }
+
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+                        Text(
+                            text = "4 / 2 / 6",
+                            style = MaterialTheme.typography.labelLarge
                         )
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
-                        )
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
-                        )
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
-                        )
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
-                        )
-                        SquareAssets(
-                            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
-                            contentDescription = "Item name",
-                            height = 30.dp
+                        Text(
+                            text = "KDA 5.0",
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                 }
+                // Builds
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                    SquareAssets(
+                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        contentDescription = "Item name",
+                        height = 25.dp
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = "Summoner's Rift",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Text(
+                    text = "19:53",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Text(
+                    text = "2024/01/11",
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
         }
     }
@@ -228,7 +338,8 @@ fun MatchItem(
 fun SquareAssets(
     url: String,
     contentDescription: String,
-    height: Dp
+    height: Dp,
+    modifier: Modifier = Modifier
 ) {
     AsyncImage(
         model = ImageRequest
@@ -238,8 +349,13 @@ fun SquareAssets(
             .build(),
         placeholder = painterResource(R.drawable.ic_launcher_background),
         contentDescription = contentDescription,
-        modifier = Modifier
+        modifier = modifier
             .height(height)
-            .clip(MaterialTheme.shapes.large)
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen()
 }
