@@ -14,7 +14,7 @@ interface AppContainer {
 
 class DefaultAppContainer: AppContainer {
 
-    private val apiKey = "RGAPI-060b87e5-e508-4a92-a397-57cbd23a07ce"
+    private val apiKey = BuildConfig.RIOT_API_KEY
     private val baseUrl = "https://tw2.api.riotgames.com"
 
     private val retrofit = Retrofit.Builder()

@@ -20,7 +20,10 @@ android {
             useSupportLibrary = true
         }
     }
-
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,6 +31,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val riotApiKey: String by project
+            buildConfigField("String", "RIOT_API_KEY", riotApiKey)
+        }
+        debug {
+            val riotApiKey: String by project
+            buildConfigField("String", "RIOT_API_KEY", riotApiKey)
         }
     }
     compileOptions {
