@@ -56,9 +56,9 @@ fun YuumiApp(
         ) {
             composable(route = YuumiScreen.Home.name) {
                 HomeScreen(
-                    onSearch = {
-                        summonerName -> viewModel.searchBySummonerName(summonerName)
+                    onSearch = { summonerName ->
                         navController.navigate(YuumiScreen.Profile.name)
+                        viewModel.searchBySummonerName(summonerName)
                     }
                 )
             }

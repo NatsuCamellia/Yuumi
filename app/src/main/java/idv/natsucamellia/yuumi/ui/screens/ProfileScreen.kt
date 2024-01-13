@@ -34,70 +34,92 @@ fun ProfileScreen(
     summonerUiState: SummonerUiState,
     modifier: Modifier = Modifier
 ) {
-    if (summonerUiState is SummonerUiState.Success) {
-        val profile = summonerUiState.summonerProfile
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier
-        ) {
-            item {
-                InfoPanel(
-                    info = profile.info,
-                    modifier = Modifier.fillMaxWidth()
+    when (summonerUiState) {
+        is SummonerUiState.Loading -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = modifier
+            ) {
+                Text(
+                    text = "Loading..."
                 )
             }
-            item {
-                MasteryPanel(
-                    modifier = Modifier.fillMaxWidth()
+        }
+        is SummonerUiState.NotFound -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = modifier
+            ) {
+                Text(
+                    text = "Summoner not found."
                 )
             }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
-            }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
-            }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
-            }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
-            }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
-            }
-            item{
-                MatchItem(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                )
+        }
+        is SummonerUiState.Success -> {
+            val profile = summonerUiState.summonerProfile
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = modifier
+            ) {
+                item {
+                    InfoPanel(
+                        info = profile.info,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                item {
+                    MasteryPanel(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
+                item{
+                    MatchItem(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+                    )
+                }
             }
         }
     }

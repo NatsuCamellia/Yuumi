@@ -23,6 +23,7 @@ class SummonerViewModel(
 
     fun searchBySummonerName(summonerName: String) {
         viewModelScope.launch {
+            summonerUiState = SummonerUiState.Loading
             val summonerDto = yuumiRepository.getSummonerDtoByName(summonerName)
             summonerUiState = when (summonerDto) {
                 null -> SummonerUiState.NotFound
