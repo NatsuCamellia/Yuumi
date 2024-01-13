@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import idv.natsucamellia.yuumi.YuumiApplication
+import idv.natsucamellia.yuumi.data.SummonerProfile
 import idv.natsucamellia.yuumi.data.YuumiRepository
-import idv.natsucamellia.yuumi.network.SummonerDto
 import kotlinx.coroutines.launch
 
 class SummonerViewModel(
@@ -26,7 +26,9 @@ class SummonerViewModel(
             val summonerDto = yuumiRepository.getSummonerDtoByName(summonerName)
             summonerUiState = when (summonerDto) {
                 null -> SummonerUiState.NotFound
-                else -> SummonerUiState.Success(summonerDto)
+                else -> SummonerUiState.Success(
+                    yuumiRepository.getSummonerProfile(summonerDto)
+                )
             }
         }
     }
@@ -43,7 +45,7 @@ class SummonerViewModel(
 }
 
 sealed interface SummonerUiState {
-    data class Success(val summonerDto: SummonerDto): SummonerUiState
+    data class Success(val summonerProfile: SummonerProfile): SummonerUiState
     object NotFound: SummonerUiState
     object Loading: SummonerUiState
 }

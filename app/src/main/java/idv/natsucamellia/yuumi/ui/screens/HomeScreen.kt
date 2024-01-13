@@ -21,12 +21,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import idv.natsucamellia.yuumi.network.SummonerDto
-import idv.natsucamellia.yuumi.ui.SummonerUiState
 
 @Composable
 fun HomeScreen(
-    summonerUiState: SummonerUiState,
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,9 +43,6 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         )
-        if (summonerUiState is SummonerUiState.Success) {
-            SummonerInfo(summonerUiState.summonerDto)
-        }
     }
 }
 
@@ -85,21 +79,4 @@ fun SearchBar(
         ),
         modifier = modifier
     )
-}
-
-@Composable
-fun SummonerInfo(
-    summonerDto: SummonerDto,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-    ) {
-        Text(
-            text = "召喚師名稱：${summonerDto.name}"
-        )
-        Text(
-            text = "召喚師等級：${summonerDto.summonerLevel}"
-        )
-    }
 }

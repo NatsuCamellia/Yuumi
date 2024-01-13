@@ -21,84 +21,91 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import idv.natsucamellia.yuumi.R
+import idv.natsucamellia.yuumi.data.SummonerInfo
+import idv.natsucamellia.yuumi.ui.SummonerUiState
 
 @Composable
 fun ProfileScreen(
+    summonerUiState: SummonerUiState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = modifier
-    ) {
-        item {
-            InfoPanel(
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        item {
-            MasteryPanel(
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
-        }
-        item{
-            MatchItem(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    )
-            )
+    if (summonerUiState is SummonerUiState.Success) {
+        val profile = summonerUiState.summonerProfile
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = modifier
+        ) {
+            item {
+                InfoPanel(
+                    info = profile.info,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            item {
+                MasteryPanel(
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
+            item{
+                MatchItem(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                )
+            }
         }
     }
 }
 
 @Composable
 fun InfoPanel(
+    info: SummonerInfo,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -110,7 +117,7 @@ fun InfoPanel(
             modifier = Modifier.padding(16.dp)
         ) {
             SquareAssets(
-                url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/1385.png",
+                url = info.profileIconUrl,
                 contentDescription = "Profile icon",
                 height = 70.dp
             )
@@ -118,11 +125,11 @@ fun InfoPanel(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "NatsuCamellia #4890",
+                    text = info.name,
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = "Level 357"
+                    text = "Level ${info.level}"
                 )
             }
         }
@@ -352,10 +359,4 @@ fun SquareAssets(
         modifier = modifier
             .height(height)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    ProfileScreen()
 }
