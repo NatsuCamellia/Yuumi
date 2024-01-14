@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import idv.natsucamellia.yuumi.R
+import idv.natsucamellia.yuumi.data.ChampionMastery
 import idv.natsucamellia.yuumi.data.SummonerInfo
 import idv.natsucamellia.yuumi.ui.SummonerUiState
 
@@ -69,6 +71,7 @@ fun ProfileScreen(
                 }
                 item {
                     MasteryPanel(
+                        championMasteryList = profile.championMasteryList,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -167,26 +170,18 @@ fun RankPanel(
 
 @Composable
 fun MasteryPanel(
+    championMasteryList: List<ChampionMastery>,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        item {
+        items(
+            championMasteryList
+        ) {
             MasteryItem(
-                modifier = Modifier.padding(16.dp)
-            )
-            MasteryItem(
-                modifier = Modifier.padding(16.dp)
-            )
-            MasteryItem(
-                modifier = Modifier.padding(16.dp)
-            )
-            MasteryItem(
-                modifier = Modifier.padding(16.dp)
-            )
-            MasteryItem(
+                championMastery = it,
                 modifier = Modifier.padding(16.dp)
             )
         }
@@ -195,6 +190,7 @@ fun MasteryPanel(
 
 @Composable
 fun MasteryItem(
+    championMastery: ChampionMastery,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -202,15 +198,15 @@ fun MasteryItem(
         modifier = modifier
     ) {
         SquareAssets(
-            url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/Aatrox.png",
+            url = championMastery.championIconUrl,
             contentDescription = "Champion icon",
             height = 50.dp
         )
         Text(
-            text = "Mastery 7"
+            text = "Mastery ${championMastery.championLevel}"
         )
         Text(
-            text = "473924"
+            text = "${championMastery.championPoints}"
         )
     }
 }
