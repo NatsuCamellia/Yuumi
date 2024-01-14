@@ -12,4 +12,14 @@ interface RiotApiService {
         @Query("api_key")
         apiKey: String
     ): SummonerDto
+
+    @GET("/lol/champion-mastery/v4/champion-masteries/by-puuid/{encryptedPUUID}/top")
+    suspend fun getChampionMasteryTopByPuuid(
+        @Path("encryptedPUUID")
+        puuid: String,
+        @Query("count")
+        count: Int,
+        @Query("api_key")
+        apiKey: String
+    ): List<ChampionMasteryDto>
 }
