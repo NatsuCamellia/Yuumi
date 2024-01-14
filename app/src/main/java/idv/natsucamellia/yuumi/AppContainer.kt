@@ -3,6 +3,7 @@ package idv.natsucamellia.yuumi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import idv.natsucamellia.yuumi.data.NetworkYuumiRepository
 import idv.natsucamellia.yuumi.data.YuumiRepository
+import idv.natsucamellia.yuumi.network.DataDragonApiService
 import idv.natsucamellia.yuumi.network.RiotApiService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,10 +16,13 @@ interface AppContainer {
 class DefaultAppContainer: AppContainer {
 
     private val apiKey = BuildConfig.RIOT_API_KEY
+    private val dataDragonBaseUrl = "https://ddragon.leagueoflegends.com/cdn/"
     private val baseUrl = "https://tw2.api.riotgames.com"
-
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
 
@@ -26,7 +30,20 @@ class DefaultAppContainer: AppContainer {
         retrofit.create(RiotApiService::class.java)
     }
 
+    private val dataDragonRetrofit = Retrofit.Builder()
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .baseUrl(dataDragonBaseUrl)
+        .build()
+
+    private val dataDragonApiService: DataDragonApiService by lazy {
+        dataDragonRetrofit.create(DataDragonApiService::class.java)
+    }
+
     override val yuumiRepository: YuumiRepository by lazy {
-        NetworkYuumiRepository(apiKey, retrofitService)
+        NetworkYuumiRepository(
+            apiKey = apiKey,
+            riotApiService =  retrofitService,
+            dataDragonApiService = dataDragonApiService
+        )
     }
 }
