@@ -16,7 +16,7 @@ interface AppContainer {
 class DefaultAppContainer: AppContainer {
 
     private val apiKey = BuildConfig.RIOT_API_KEY
-    private val dataDragonBaseUrl = "https://ddragon.leagueoflegends.com/cdn/"
+    private val dataDragonBaseUrl = "https://ddragon.leagueoflegends.com"
     private val baseUrl = "https://tw2.api.riotgames.com"
     private val json = Json {
         ignoreUnknownKeys = true

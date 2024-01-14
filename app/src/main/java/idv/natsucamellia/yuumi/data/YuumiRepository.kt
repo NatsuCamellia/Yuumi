@@ -18,8 +18,13 @@ class NetworkYuumiRepository(
     private val dataDragonApiService: DataDragonApiService
 ): YuumiRepository {
 
+    private val version by lazy {
+        runBlocking {
+            dataDragonApiService.getVersions()[0]
+        }
+    }
     private val championIdNameMap: Map<Long, String> by lazy {
-        getChampions("14.1.1")
+        getChampions(version)
     }
 
     private fun getChampions(
