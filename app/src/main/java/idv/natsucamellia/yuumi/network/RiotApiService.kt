@@ -22,4 +22,22 @@ interface RiotApiService {
         @Query("api_key")
         apiKey: String
     ): List<ChampionMasteryDto>
+
+    @GET("https://sea.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids")
+    suspend fun getMatchIds(
+        @Path("puuid")
+        puuid: String,
+        @Query("count")
+        count: Int?,
+        @Query("api_key")
+        apiKey: String
+    ): List<String>
+
+    @GET("https://sea.api.riotgames.com/lol/match/v5/matches/{matchId}")
+    suspend fun getMatch(
+        @Path("matchId")
+        matchId: String,
+        @Query("api_key")
+        apiKey: String
+    ): MatchDto
 }
