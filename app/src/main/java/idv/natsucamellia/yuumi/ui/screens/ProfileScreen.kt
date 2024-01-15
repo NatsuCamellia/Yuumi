@@ -1,5 +1,6 @@
 package idv.natsucamellia.yuumi.ui.screens
 
+import android.text.format.DateUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,8 +29,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import idv.natsucamellia.yuumi.R
 import idv.natsucamellia.yuumi.data.ChampionMastery
+import idv.natsucamellia.yuumi.data.MatchSummary
 import idv.natsucamellia.yuumi.data.SummonerInfo
 import idv.natsucamellia.yuumi.ui.SummonerUiState
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun ProfileScreen(
@@ -75,48 +79,11 @@ fun ProfileScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                item{
+                items(
+                    profile.matches
+                ){
                     MatchItem(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer
-                            )
-                    )
-                }
-                item{
-                    MatchItem(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer
-                            )
-                    )
-                }
-                item{
-                    MatchItem(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer
-                            )
-                    )
-                }
-                item{
-                    MatchItem(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer
-                            )
-                    )
-                }
-                item{
-                    MatchItem(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer
-                            )
-                    )
-                }
-                item{
-                    MatchItem(
+                        matchSummary = it,
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.secondaryContainer
@@ -213,20 +180,23 @@ fun MasteryItem(
 
 @Composable
 fun MatchItem(
+    matchSummary: MatchSummary,
     modifier: Modifier = Modifier
 ) {
     Row(
        modifier = modifier.height(100.dp)
     ) {
+        val kda: Double = (matchSummary.kills + matchSummary.assists).toDouble() / matchSummary.deaths
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(Color.Red)
+                .background(if (matchSummary.win) Color.Blue else Color.Red)
                 .fillMaxHeight()
+                .width(30.dp)
                 .padding(8.dp)
         ) {
-            Text("W")
+            Text(if (matchSummary.win) "W" else "L")
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -241,7 +211,7 @@ fun MatchItem(
                     modifier = Modifier.height(54.dp)
                 ) {
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/Aatrox.png",
+                        url = matchSummary.championIconUrl,
                         contentDescription = "Champion icon",
                         height = 54.dp
                     )
@@ -255,12 +225,12 @@ fun MatchItem(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             SquareAssets(
-                                url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerHeal.png",
+                                url = matchSummary.summoner1IconUrl,
                                 contentDescription = "Summoner spell 1",
                                 height = 25.dp
                             )
                             SquareAssets(
-                                url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerFlash.png",
+                                url = matchSummary.summoner2IconUrl,
                                 contentDescription = "Summoner spell 2",
                                 height = 25.dp
                             )
@@ -270,13 +240,13 @@ fun MatchItem(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             SquareAssets(
-                                url = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
-                                contentDescription = "Summoner spell 1",
+                                url = matchSummary.perk1IconUrl,
+                                contentDescription = "Rune 1",
                                 height = 25.dp
                             )
                             SquareAssets(
-                                url = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png",
-                                contentDescription = "Summoner spell 2",
+                                url = matchSummary.perk2IconUrl,
+                                contentDescription = "Rune 2",
                                 height = 25.dp
                             )
                         }
@@ -288,11 +258,11 @@ fun MatchItem(
                         modifier = Modifier.fillMaxHeight()
                     ) {
                         Text(
-                            text = "4 / 2 / 6",
+                            text = "${matchSummary.kills} / ${matchSummary.deaths} / ${matchSummary.assists}",
                             style = MaterialTheme.typography.labelLarge
                         )
                         Text(
-                            text = "KDA 5.0",
+                            text = "KDA ${"%.1f".format(kda)}",
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
@@ -302,37 +272,37 @@ fun MatchItem(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item0Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item1Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item2Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item3Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item4Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item5Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
                     SquareAssets(
-                        url = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/1001.png",
+                        url = matchSummary.item6Icon,
                         contentDescription = "Item name",
                         height = 25.dp
                     )
@@ -343,15 +313,15 @@ fun MatchItem(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = "Summoner's Rift",
+                    text = matchSummary.gameMode,
                     style = MaterialTheme.typography.labelLarge
                 )
                 Text(
-                    text = "19:53",
+                    text = DateUtils.formatElapsedTime(matchSummary.gameDuration),
                     style = MaterialTheme.typography.labelLarge
                 )
                 Text(
-                    text = "2024/01/11",
+                    text = matchSummary.gameEndTimestamp.toTimeDateString(),
                     style = MaterialTheme.typography.labelLarge
                 )
             }
@@ -377,4 +347,10 @@ fun SquareAssets(
         modifier = modifier
             .height(height)
     )
+}
+
+fun Long.toTimeDateString(): String {
+    val dateTime = Date(this)
+    val format = SimpleDateFormat("yyyy/MM/dd", java.util.Locale.CHINESE)
+    return format.format(dateTime)
 }
