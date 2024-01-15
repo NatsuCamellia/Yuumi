@@ -1,8 +1,10 @@
 package idv.natsucamellia.yuumi.data
 
 import idv.natsucamellia.yuumi.network.DataDragonApiService
+import idv.natsucamellia.yuumi.network.MatchDto
 import idv.natsucamellia.yuumi.network.RiotApiService
 import idv.natsucamellia.yuumi.network.SummonerDto
+import idv.natsucamellia.yuumi.network.getParticipant
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
@@ -62,10 +64,40 @@ class NetworkYuumiRepository(
             puuid = summonerDto.puuid,
             count = 5
         )
+        val matchDtoList = getRecentMatches(
+            puuid = summonerDto.puuid,
+            count = 5
+        )
+        val matches = matchDtoList.map {
+            val participant = it.getParticipant(puuid = summonerDto.puuid)!!
+            MatchSummary(
+                win = participant.win,
+                championIconUrl = getChampionIconUrl(participant.championName),
+                summoner1IconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerHeal.png",
+                summoner2IconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerFlash.png",
+                perk1IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
+                perk2IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png",
+                kills = participant.kills,
+                deaths = participant.deaths,
+                assists = participant.assists,
+                item0Icon = getItemIconUrl(participant.item0),
+                item1Icon = getItemIconUrl(participant.item1),
+                item2Icon = getItemIconUrl(participant.item2),
+                item3Icon = getItemIconUrl(participant.item3),
+                item4Icon = getItemIconUrl(participant.item4),
+                item5Icon = getItemIconUrl(participant.item5),
+                item6Icon = getItemIconUrl(participant.item6),
+                gameDuration = it.info.gameDuration,
+                gameEndTimestamp = it.info.gameEndTimestamp,
+                gameMode = it.info.gameMode
+            )
+
+        }
         return SummonerProfile(
             summonerDto = summonerDto,
             info = summonerInfo,
-            championMasteryList = championMasteryList
+            championMasteryList = championMasteryList,
+            matches = matches
         )
     }
 
@@ -89,5 +121,33 @@ class NetworkYuumiRepository(
                 championPoints = it.championPoints
             )
         }
+    }
+
+    private suspend fun getRecentMatches(
+        puuid: String,
+        count: Int
+    ): List<MatchDto> {
+        return riotApiService.getMatchIds(
+            puuid = puuid,
+            count = count,
+            apiKey = apiKey
+        ).map {
+            riotApiService.getMatch(
+                matchId = it,
+                apiKey = apiKey
+            )
+        }
+    }
+
+    private fun getChampionIconUrl(
+        name: String
+    ): String {
+        return "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/${name}.png"
+    }
+
+    private fun getItemIconUrl(
+        id: Int
+    ): String {
+        return "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/${id}.png"
     }
 }
