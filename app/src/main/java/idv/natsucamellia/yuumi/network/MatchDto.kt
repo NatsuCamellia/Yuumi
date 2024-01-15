@@ -117,3 +117,14 @@ data class ObjectiveDto(
     val first: Boolean,
     val kills: Int
 )
+
+fun MatchDto.getParticipant(
+    puuid: String
+): ParticipantDto? {
+    for (participant in this.info.participants) {
+        if (participant.puuid == puuid) {
+            return participant
+        }
+    }
+    return null
+}
