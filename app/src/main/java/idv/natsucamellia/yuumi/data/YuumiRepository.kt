@@ -4,6 +4,8 @@ import idv.natsucamellia.yuumi.network.DataDragonApiService
 import idv.natsucamellia.yuumi.network.MatchDto
 import idv.natsucamellia.yuumi.network.RiotApiService
 import idv.natsucamellia.yuumi.network.SummonerDto
+import idv.natsucamellia.yuumi.network.SummonerSpell
+import idv.natsucamellia.yuumi.network.getFullUrl
 import idv.natsucamellia.yuumi.network.getParticipant
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,6 +29,16 @@ class NetworkYuumiRepository(
     }
     private val championIdNameMap: Map<Long, String> by lazy {
         getChampions(version)
+    }
+    private val summonerSpellMap: Map<Int, SummonerSpell> by lazy {
+        runBlocking {
+            dataDragonApiService
+                .getSummonerSpells(version = version)
+                .data
+                .mapKeys {
+                    it.value.key.toInt()
+                }
+        }
     }
 
     private fun getChampions(
@@ -73,8 +85,8 @@ class NetworkYuumiRepository(
             MatchSummary(
                 win = participant.win,
                 championIconUrl = getChampionIconUrl(participant.championName),
-                summoner1IconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerHeal.png",
-                summoner2IconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/SummonerFlash.png",
+                summoner1IconUrl = summonerSpellMap[participant.summoner1Id]!!.image.getFullUrl(version),
+                summoner2IconUrl = summonerSpellMap[participant.summoner2Id]!!.image.getFullUrl(version),
                 perk1IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
                 perk2IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png",
                 kills = participant.kills,
