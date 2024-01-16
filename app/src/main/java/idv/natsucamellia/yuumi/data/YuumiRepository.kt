@@ -7,7 +7,6 @@ import idv.natsucamellia.yuumi.network.SummonerDto
 import idv.natsucamellia.yuumi.network.SummonerSpell
 import idv.natsucamellia.yuumi.network.getFullUrl
 import idv.natsucamellia.yuumi.network.getParticipant
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
@@ -28,34 +27,22 @@ class NetworkYuumiRepository(
         }
     }
     private val championIdNameMap: Map<Long, String> by lazy {
-        getChampions(version)
+        runBlocking {
+            dataDragonApiService.getChampions(version = version)
+                .data
+                .map{
+                    it.value.key.toLong() to it.key
+                }.toMap()
+        }
     }
     private val summonerSpellMap: Map<Int, SummonerSpell> by lazy {
         runBlocking {
-            dataDragonApiService
-                .getSummonerSpells(version = version)
+            dataDragonApiService.getSummonerSpells(version = version)
                 .data
                 .mapKeys {
                     it.value.key.toInt()
                 }
         }
-    }
-
-    private fun getChampions(
-        version: String
-    ): MutableMap<Long, String> {
-        val championIdNameMap: MutableMap<Long, String> = mutableMapOf()
-        runBlocking {
-            launch {
-                val champions = dataDragonApiService.getChampions(version)
-                for (entry in champions.data) {
-                    val name = entry.value.name
-                    val id = entry.value.key.toLong()
-                    championIdNameMap[id] = name
-                }
-            }
-        }
-        return championIdNameMap
     }
 
     override suspend fun getSummonerDtoByName(summonerName: String): SummonerDto? {
