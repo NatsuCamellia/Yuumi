@@ -12,4 +12,10 @@ interface DataDragonApiService {
 
     @GET("api/versions.json")
     suspend fun getVersions(): List<String>
+
+    @GET("cdn/{version}/data/en_US/summoner.json")
+    suspend fun getSummonerSpells(
+        @Path("version")
+        version: String
+    ): SummonerSpells
 }
