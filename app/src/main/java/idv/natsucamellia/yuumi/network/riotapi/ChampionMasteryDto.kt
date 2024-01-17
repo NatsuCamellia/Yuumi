@@ -1,4 +1,4 @@
-package idv.natsucamellia.yuumi.network
+package idv.natsucamellia.yuumi.network.riotapi
 
 import kotlinx.serialization.Serializable
 

@@ -1,9 +1,9 @@
 package idv.natsucamellia.yuumi.data
 
-import idv.natsucamellia.yuumi.network.MatchDto
-import idv.natsucamellia.yuumi.network.RiotApiService
-import idv.natsucamellia.yuumi.network.SummonerDto
-import idv.natsucamellia.yuumi.network.getParticipant
+import idv.natsucamellia.yuumi.network.riotapi.MatchDto
+import idv.natsucamellia.yuumi.network.riotapi.RiotApiService
+import idv.natsucamellia.yuumi.network.riotapi.SummonerDto
+import idv.natsucamellia.yuumi.network.riotapi.getParticipant
 import retrofit2.HttpException
 
 interface YuumiRepository {

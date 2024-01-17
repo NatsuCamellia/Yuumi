@@ -1,8 +1,8 @@
 package idv.natsucamellia.yuumi.data
 
-import idv.natsucamellia.yuumi.network.DataDragonApiService
-import idv.natsucamellia.yuumi.network.SummonerSpell
-import idv.natsucamellia.yuumi.network.getFullUrl
+import idv.natsucamellia.yuumi.network.ddragon.DataDragonApiService
+import idv.natsucamellia.yuumi.network.ddragon.SummonerSpell
+import idv.natsucamellia.yuumi.network.ddragon.getFullUrl
 import kotlinx.coroutines.runBlocking
 
 interface DataDragonRepository {

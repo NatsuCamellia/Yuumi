@@ -5,8 +5,8 @@ import idv.natsucamellia.yuumi.data.DataDragonRepository
 import idv.natsucamellia.yuumi.data.NetworkDataDragonRepository
 import idv.natsucamellia.yuumi.data.NetworkYuumiRepository
 import idv.natsucamellia.yuumi.data.YuumiRepository
-import idv.natsucamellia.yuumi.network.DataDragonApiService
-import idv.natsucamellia.yuumi.network.RiotApiService
+import idv.natsucamellia.yuumi.network.ddragon.DataDragonApiService
+import idv.natsucamellia.yuumi.network.riotapi.RiotApiService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit

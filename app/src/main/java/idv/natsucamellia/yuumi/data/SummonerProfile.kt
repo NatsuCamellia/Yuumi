@@ -1,7 +1,7 @@
 package idv.natsucamellia.yuumi.data
 
-import idv.natsucamellia.yuumi.network.ChampionMasteryDto
-import idv.natsucamellia.yuumi.network.SummonerDto
+import idv.natsucamellia.yuumi.network.riotapi.ChampionMasteryDto
+import idv.natsucamellia.yuumi.network.riotapi.SummonerDto
 
 data class SummonerProfile(
     val summonerDto: SummonerDto,

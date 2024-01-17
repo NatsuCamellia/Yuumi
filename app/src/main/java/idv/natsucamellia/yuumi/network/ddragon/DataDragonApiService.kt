@@ -1,4 +1,4 @@
-package idv.natsucamellia.yuumi.network
+package idv.natsucamellia.yuumi.network.ddragon
 
 import retrofit2.http.GET
 import retrofit2.http.Path
