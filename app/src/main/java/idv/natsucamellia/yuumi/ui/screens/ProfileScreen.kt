@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,13 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import idv.natsucamellia.yuumi.R
 import idv.natsucamellia.yuumi.data.ChampionMastery
 import idv.natsucamellia.yuumi.data.MatchSummary
 import idv.natsucamellia.yuumi.data.SummonerInfo
@@ -342,10 +342,12 @@ fun SquareAssets(
             .data(url)
             .crossfade(true)
             .build(),
-        placeholder = painterResource(R.drawable.ic_launcher_background),
+        error = ColorPainter(Color.Gray),
+        placeholder = ColorPainter(Color.Gray),
         contentDescription = contentDescription,
         modifier = modifier
             .height(height)
+            .aspectRatio(1f, true)
     )
 }
 
