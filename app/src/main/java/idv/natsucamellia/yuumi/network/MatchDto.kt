@@ -37,6 +37,7 @@ data class InfoDto(
 @Serializable
 data class ParticipantDto(
     val assists: Int,
+    val championId: Int,
     val championName: String,
     val deaths: Int,
     val item0: Int,

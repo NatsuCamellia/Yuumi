@@ -1,13 +1,9 @@
 package idv.natsucamellia.yuumi.data
 
-import idv.natsucamellia.yuumi.network.DataDragonApiService
 import idv.natsucamellia.yuumi.network.MatchDto
 import idv.natsucamellia.yuumi.network.RiotApiService
 import idv.natsucamellia.yuumi.network.SummonerDto
-import idv.natsucamellia.yuumi.network.SummonerSpell
-import idv.natsucamellia.yuumi.network.getFullUrl
 import idv.natsucamellia.yuumi.network.getParticipant
-import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
 interface YuumiRepository {
@@ -18,33 +14,8 @@ interface YuumiRepository {
 class NetworkYuumiRepository(
     private val apiKey: String,
     private val riotApiService: RiotApiService,
-    private val dataDragonApiService: DataDragonApiService
+    private val dataDragonRepository: DataDragonRepository
 ): YuumiRepository {
-
-    private val version by lazy {
-        runBlocking {
-            dataDragonApiService.getVersions()[0]
-        }
-    }
-    private val championIdNameMap: Map<Long, String> by lazy {
-        runBlocking {
-            dataDragonApiService.getChampions(version = version)
-                .data
-                .map{
-                    it.value.key.toLong() to it.key
-                }.toMap()
-        }
-    }
-    private val summonerSpellMap: Map<Int, SummonerSpell> by lazy {
-        runBlocking {
-            dataDragonApiService.getSummonerSpells(version = version)
-                .data
-                .mapKeys {
-                    it.value.key.toInt()
-                }
-        }
-    }
-
     override suspend fun getSummonerDtoByName(summonerName: String): SummonerDto? {
         return try {
             riotApiService.getSummonerDtoByName(summonerName, apiKey)
@@ -57,7 +28,7 @@ class NetworkYuumiRepository(
         val summonerInfo = SummonerInfo(
             name = summonerDto.name,
             level = summonerDto.summonerLevel,
-            profileIconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/${summonerDto.profileIconId}.png"
+            profileIconUrl = dataDragonRepository.getProfileIconUrl(summonerDto.profileIconId)
         )
         val championMasteryList = getChampionMasteryTop(
             puuid = summonerDto.puuid,
@@ -71,21 +42,21 @@ class NetworkYuumiRepository(
             val participant = it.getParticipant(puuid = summonerDto.puuid)!!
             MatchSummary(
                 win = participant.win,
-                championIconUrl = getChampionIconUrl(participant.championName),
-                summoner1IconUrl = summonerSpellMap[participant.summoner1Id]!!.image.getFullUrl(version),
-                summoner2IconUrl = summonerSpellMap[participant.summoner2Id]!!.image.getFullUrl(version),
+                championIconUrl = dataDragonRepository.getChampionIconUrl(participant.championId),
+                summoner1IconUrl = dataDragonRepository.getSummonerSpellIconUrl(participant.summoner1Id),
+                summoner2IconUrl = dataDragonRepository.getSummonerSpellIconUrl(participant.summoner2Id),
                 perk1IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
                 perk2IconUrl = "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png",
                 kills = participant.kills,
                 deaths = participant.deaths,
                 assists = participant.assists,
-                item0Icon = getItemIconUrl(participant.item0),
-                item1Icon = getItemIconUrl(participant.item1),
-                item2Icon = getItemIconUrl(participant.item2),
-                item3Icon = getItemIconUrl(participant.item3),
-                item4Icon = getItemIconUrl(participant.item4),
-                item5Icon = getItemIconUrl(participant.item5),
-                item6Icon = getItemIconUrl(participant.item6),
+                item0Icon = dataDragonRepository.getItemIconUrl(participant.item0),
+                item1Icon = dataDragonRepository.getItemIconUrl(participant.item1),
+                item2Icon = dataDragonRepository.getItemIconUrl(participant.item2),
+                item3Icon = dataDragonRepository.getItemIconUrl(participant.item3),
+                item4Icon = dataDragonRepository.getItemIconUrl(participant.item4),
+                item5Icon = dataDragonRepository.getItemIconUrl(participant.item5),
+                item6Icon = dataDragonRepository.getItemIconUrl(participant.item6),
                 gameDuration = it.info.gameDuration,
                 gameEndTimestamp = it.info.gameEndTimestamp,
                 gameMode = it.info.gameMode
@@ -109,12 +80,11 @@ class NetworkYuumiRepository(
             apiKey = apiKey
         )
         return dtoList.map {
-            val championName = championIdNameMap[it.championId]
             ChampionMastery(
                 championMasteryDto = it,
                 championId = it.championId,
-                championName = championName!!,
-                championIconUrl = "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/${championName}.png",
+                championName = dataDragonRepository.getChampionName(it.championId.toInt()),
+                championIconUrl = dataDragonRepository.getChampionIconUrl(it.championId.toInt()),
                 championLevel = it.championLevel,
                 championPoints = it.championPoints
             )
@@ -135,17 +105,5 @@ class NetworkYuumiRepository(
                 apiKey = apiKey
             )
         }
-    }
-
-    private fun getChampionIconUrl(
-        name: String
-    ): String {
-        return "https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${name}.png"
-    }
-
-    private fun getItemIconUrl(
-        id: Int
-    ): String {
-        return "https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${id}.png"
     }
 }

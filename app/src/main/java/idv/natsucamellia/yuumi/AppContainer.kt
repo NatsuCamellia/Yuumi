@@ -1,6 +1,8 @@
 package idv.natsucamellia.yuumi
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import idv.natsucamellia.yuumi.data.DataDragonRepository
+import idv.natsucamellia.yuumi.data.NetworkDataDragonRepository
 import idv.natsucamellia.yuumi.data.NetworkYuumiRepository
 import idv.natsucamellia.yuumi.data.YuumiRepository
 import idv.natsucamellia.yuumi.network.DataDragonApiService
@@ -39,11 +41,15 @@ class DefaultAppContainer: AppContainer {
         dataDragonRetrofit.create(DataDragonApiService::class.java)
     }
 
+    private val dataDragonRepository: DataDragonRepository by lazy {
+        NetworkDataDragonRepository(dataDragonApiService)
+    }
+
     override val yuumiRepository: YuumiRepository by lazy {
         NetworkYuumiRepository(
             apiKey = apiKey,
             riotApiService =  retrofitService,
-            dataDragonApiService = dataDragonApiService
+            dataDragonRepository = dataDragonRepository
         )
     }
 }
