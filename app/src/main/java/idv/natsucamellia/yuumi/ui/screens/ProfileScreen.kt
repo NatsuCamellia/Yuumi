@@ -191,12 +191,15 @@ fun MatchItem(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(if (matchSummary.win) Color.Blue else Color.Red)
+                .background(if (matchSummary.win) Color.Green else Color.Gray)
                 .fillMaxHeight()
                 .width(30.dp)
                 .padding(8.dp)
         ) {
-            Text(if (matchSummary.win) "W" else "L")
+            Text(
+                text = if (matchSummary.win) "W" else "L",
+                color = if (matchSummary.win) Color.Black else Color.White
+            )
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
