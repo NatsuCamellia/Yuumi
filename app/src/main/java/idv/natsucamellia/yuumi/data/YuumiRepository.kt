@@ -90,7 +90,6 @@ class NetworkYuumiRepository(
                 gameEndTimestamp = it.info.gameEndTimestamp,
                 gameMode = it.info.gameMode
             )
-
         }
         return SummonerProfile(
             summonerDto = summonerDto,
@@ -141,12 +140,12 @@ class NetworkYuumiRepository(
     private fun getChampionIconUrl(
         name: String
     ): String {
-        return "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/${name}.png"
+        return "https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${name}.png"
     }
 
     private fun getItemIconUrl(
         id: Int
     ): String {
-        return "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/${id}.png"
+        return "https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${id}.png"
     }
 }
