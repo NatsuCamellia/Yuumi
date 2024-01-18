@@ -1,6 +1,8 @@
 package idv.natsucamellia.yuumi.data
 
 import idv.natsucamellia.yuumi.network.ddragon.DataDragonApiService
+import idv.natsucamellia.yuumi.network.ddragon.Rune
+import idv.natsucamellia.yuumi.network.ddragon.RuneStyle
 import idv.natsucamellia.yuumi.network.ddragon.SummonerSpell
 import idv.natsucamellia.yuumi.network.ddragon.getFullUrl
 import kotlinx.coroutines.runBlocking
@@ -10,7 +12,10 @@ interface DataDragonRepository {
     fun getChampionIconUrl(id: Int): String
     fun getItemIconUrl(id: Int): String
     fun getSummonerSpellIconUrl(id: Int): String
+    fun getRuneStyleIconUrl(id: Int): String
+    fun getRuneIconUrl(id: Int): String
     fun getChampionName(id: Int): String
+
 }
 
 class NetworkDataDragonRepository(
@@ -40,6 +45,27 @@ class NetworkDataDragonRepository(
                 }
         }
     }
+    private val runeStyles: List<RuneStyle> by lazy {
+        runBlocking {
+            dataDragonApiService.getRuneStyles(version)
+        }
+    }
+    private val idRuneStyleMap: Map<Int, RuneStyle> by lazy {
+        runeStyles.associateBy {
+            it.id
+        }
+    }
+    private val idRuneMap: Map<Int, Rune> by lazy {
+        val map = mutableMapOf<Int, Rune>()
+        runeStyles.forEach {
+            it.slots.forEach { x ->
+                x.runes.forEach { r ->
+                    map[r.id] = r
+                }
+            }
+        }
+        map
+    }
 
     override fun getProfileIconUrl(id: Int): String {
         return "https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${id}.png"
@@ -57,6 +83,16 @@ class NetworkDataDragonRepository(
     override fun getSummonerSpellIconUrl(id: Int): String {
         val summonerSpell = summonerSpellMap[id]!!
         return summonerSpell.image.getFullUrl(version)
+    }
+
+    override fun getRuneStyleIconUrl(id: Int): String {
+        val runeStyle = idRuneStyleMap[id]
+        return "https://ddragon.leagueoflegends.com/cdn/img/${runeStyle?.icon}"
+    }
+
+    override fun getRuneIconUrl(id: Int): String {
+        val rune = idRuneMap[id]
+        return "https://ddragon.leagueoflegends.com/cdn/img/${rune?.icon}"
     }
 
     override fun getChampionName(id: Int): String {
