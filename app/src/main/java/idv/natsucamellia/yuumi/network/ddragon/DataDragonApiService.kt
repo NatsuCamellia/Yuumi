@@ -18,4 +18,10 @@ interface DataDragonApiService {
         @Path("version")
         version: String
     ): SummonerSpells
+
+    @GET("cdn/{version}/data/en_US/runesReforged.json")
+    suspend fun getRuneStyles(
+        @Path("version")
+        version: String
+    ): List<RuneStyle>
 }
