@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -111,7 +110,9 @@ fun InfoPanel(
             SquareAssets(
                 url = info.profileIconUrl,
                 contentDescription = "Profile icon",
-                height = 70.dp
+                modifier = Modifier
+                    .height(70.dp)
+                    .aspectRatio(1f, true)
             )
             Column(
                 verticalArrangement = Arrangement.Center
@@ -167,7 +168,9 @@ fun MasteryItem(
         SquareAssets(
             url = championMastery.championIconUrl,
             contentDescription = "Champion icon",
-            height = 50.dp
+            modifier = Modifier
+                .height(50.dp)
+                .aspectRatio(1f, true)
         )
         Text(
             text = "Mastery ${championMastery.championLevel}"
@@ -216,7 +219,9 @@ fun MatchItem(
                     SquareAssets(
                         url = matchSummary.championIconUrl,
                         contentDescription = "Champion icon",
-                        height = 54.dp
+                        modifier = Modifier
+                            .height(54.dp)
+                            .aspectRatio(1f, true)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Row(
@@ -230,12 +235,16 @@ fun MatchItem(
                             SquareAssets(
                                 url = matchSummary.summoner1IconUrl,
                                 contentDescription = "Summoner spell 1",
-                                height = 25.dp
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    .aspectRatio(1f, true)
                             )
                             SquareAssets(
                                 url = matchSummary.summoner2IconUrl,
                                 contentDescription = "Summoner spell 2",
-                                height = 25.dp
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    .aspectRatio(1f, true)
                             )
                         }
                         // Runes
@@ -245,12 +254,17 @@ fun MatchItem(
                             SquareAssets(
                                 url = matchSummary.perk1IconUrl,
                                 contentDescription = "Rune 1",
-                                height = 25.dp
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    .aspectRatio(1f, true)
+                                    .background(Color.Black)
                             )
                             SquareAssets(
                                 url = matchSummary.perk2IconUrl,
                                 contentDescription = "Rune 2",
-                                height = 25.dp
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    .aspectRatio(1f, true)
                             )
                         }
 
@@ -277,37 +291,51 @@ fun MatchItem(
                     SquareAssets(
                         url = matchSummary.item0Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item1Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item2Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item3Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item4Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item5Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                     SquareAssets(
                         url = matchSummary.item6Icon,
                         contentDescription = "Item name",
-                        height = 25.dp
+                        modifier = Modifier
+                            .height(25.dp)
+                            .aspectRatio(1f, true)
                     )
                 }
             }
@@ -336,7 +364,6 @@ fun MatchItem(
 fun SquareAssets(
     url: String,
     contentDescription: String,
-    height: Dp,
     modifier: Modifier = Modifier
 ) {
     AsyncImage(
@@ -349,8 +376,6 @@ fun SquareAssets(
         placeholder = ColorPainter(Color.Gray),
         contentDescription = contentDescription,
         modifier = modifier
-            .height(height)
-            .aspectRatio(1f, true)
     )
 }
 
