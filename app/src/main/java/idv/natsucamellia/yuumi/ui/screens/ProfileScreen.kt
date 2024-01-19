@@ -228,46 +228,14 @@ fun MatchItem(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         modifier = Modifier.fillMaxHeight()
                     ) {
-                        // Summoner spells
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            SquareAssets(
-                                url = matchSummary.summoner1IconUrl,
-                                contentDescription = "Summoner spell 1",
-                                modifier = Modifier
-                                    .height(25.dp)
-                                    .aspectRatio(1f, true)
-                            )
-                            SquareAssets(
-                                url = matchSummary.summoner2IconUrl,
-                                contentDescription = "Summoner spell 2",
-                                modifier = Modifier
-                                    .height(25.dp)
-                                    .aspectRatio(1f, true)
-                            )
-                        }
-                        // Runes
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            SquareAssets(
-                                url = matchSummary.perk1IconUrl,
-                                contentDescription = "Rune 1",
-                                modifier = Modifier
-                                    .height(25.dp)
-                                    .aspectRatio(1f, true)
-                                    .background(Color.Black)
-                            )
-                            SquareAssets(
-                                url = matchSummary.perk2IconUrl,
-                                contentDescription = "Rune 2",
-                                modifier = Modifier
-                                    .height(25.dp)
-                                    .aspectRatio(1f, true)
-                            )
-                        }
-
+                        SummonerSpellColumn(
+                            summoner1IconUrl = matchSummary.summoner1IconUrl,
+                            summoner2IconUrl = matchSummary.summoner2IconUrl
+                        )
+                        RuneColumn(
+                            perk1IconUrl = matchSummary.perk1IconUrl,
+                            perk2IconUrl = matchSummary.perk2IconUrl
+                        )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Column(
@@ -284,60 +252,9 @@ fun MatchItem(
                         )
                     }
                 }
-                // Builds
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    SquareAssets(
-                        url = matchSummary.item0Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item1Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item2Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item3Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item4Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item5Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                    SquareAssets(
-                        url = matchSummary.item6Icon,
-                        contentDescription = "Item name",
-                        modifier = Modifier
-                            .height(25.dp)
-                            .aspectRatio(1f, true)
-                    )
-                }
+                BuildRow(
+                    matchSummary = matchSummary
+                )
             }
             Spacer(modifier = Modifier.weight(1f))
             Column(
@@ -357,6 +274,120 @@ fun MatchItem(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun SummonerSpellColumn(
+    summoner1IconUrl: String,
+    summoner2IconUrl: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
+    ) {
+        SquareAssets(
+            url = summoner1IconUrl,
+            contentDescription = "Summoner spell 1",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = summoner2IconUrl,
+            contentDescription = "Summoner spell 2",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+    }
+}
+
+@Composable
+fun RuneColumn(
+    perk1IconUrl: String,
+    perk2IconUrl: String
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        SquareAssets(
+            url = perk1IconUrl,
+            contentDescription = "Rune 1",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+                .background(Color.Black)
+        )
+        SquareAssets(
+            url = perk2IconUrl,
+            contentDescription = "Rune 2",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+    }
+}
+
+@Composable
+fun BuildRow(
+    matchSummary: MatchSummary,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
+    ) {
+        SquareAssets(
+            url = matchSummary.item0Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item1Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item2Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item3Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item4Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item5Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
+        SquareAssets(
+            url = matchSummary.item6Icon,
+            contentDescription = "Item name",
+            modifier = Modifier
+                .height(25.dp)
+                .aspectRatio(1f, true)
+        )
     }
 }
 
