@@ -130,13 +130,6 @@ fun InfoPanel(
 }
 
 @Composable
-fun RankPanel(
-
-) {
-
-}
-
-@Composable
 fun MasteryPanel(
     championMasteryList: List<ChampionMastery>,
     modifier: Modifier = Modifier
